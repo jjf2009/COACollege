@@ -98,19 +98,19 @@ int main() {
     int dec, bin, oct;
     char hex[20];
 
-    printf("Enter Decimal Number: ");
-    scanf("%d", &dec);
-    decimalToBinary(dec);
-    decimalToHex(dec);
-    decimalToOctal(dec);
+    // printf("Enter Decimal Number: ");
+    // scanf("%d", &dec);
+    // decimalToBinary(dec);
+    // decimalToHex(dec);
+    // decimalToOctal(dec);
 
-    printf("\nEnter Binary Number: ");
-    scanf("%d", &bin);
-    printf("Decimal: %d\n", binaryToDecimal(bin));
+    // printf("\nEnter Binary Number: ");
+    // scanf("%d", &bin);
+    // printf("Decimal: %d\n", binaryToDecimal(bin));
 
-    printf("\nEnter Octal Number: ");
-    scanf("%d", &oct);
-    printf("Decimal: %d\n", octalToDecimal(oct));
+    // printf("\nEnter Octal Number: ");
+    // scanf("%d", &oct);
+    // printf("Decimal: %d\n", octalToDecimal(oct));
 
     printf("\nEnter Hexadecimal Number: ");
     scanf("%s", hex);
