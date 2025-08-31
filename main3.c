@@ -1,69 +1,89 @@
-
 #include <stdio.h>
 #include <string.h>
-// FuncƟon prototypes
-int add_binary(char [], char [], int);
-void shiŌ_right(char [], char [], int, int*);
-void mulƟply(char [], char [], int);
 
-int main() {
-int c;
-prinƞ("Enter Number of Bits: ");
-scanf("%d", &c);
-char b1[c + 1], b2[c + 1]; // +1 for null terminator
-prinƞ("Enter First Number (Unsigned Binary): ");
-scanf("%s", b1);
-prinƞ("Enter Second Number (Unsigned Binary): ");
-scanf("%s", b2);
-mulƟply(b1, b2, c);
-return 0;
-}
-// Add binary MulƟplicand into Accumulator (same length) and return carry
-int add_binary(char a[], char m[], int n) {
-int carry = 0;
-for (int i = n - 1; i >= 0; i--) {
-int bit1 = a[i] - '0';
-int bit2 = m[i] - '0';
-int sum = bit1 + bit2 + carry;
-a[i] = (sum % 2) + '0';
-carry = sum / 2;
-}
-return carry;
-}
-// Logical leŌ shiŌ of A and Q together
-void shiŌ_right(char a[], char q[], int n, int*c) {
-// ShiŌ Q Right
-for (int i = n-1; i > 0; i--) {
-q[i] = q[i - 1];
-}
-q[0] = a[n-1]; // Bring first bit of Q into last bit of A
+// Function prototypes
+int add_binary(char[], char[], int);
+void shift_right(char[], char[], int, int *);
+void multiply(char[], char[], int);
 
-// ShiŌ Q leŌ
-for (int i = n-1; i > 0; i--) {
-a[i] = a[i - 1];
+// Add multiplicand (M) to accumulator (A) and return carry
+int add_binary(char a[], char m[], int n)
+{
+    int carry = 0;
+    for (int i = n - 1; i >= 0; i--)
+    {
+        int bit1 = a[i] - '0';
+        int bit2 = m[i] - '0';
+        int sum = bit1 + bit2 + carry;
+        a[i] = (sum % 2) + '0';
+        carry = sum / 2;
+    }
+    return carry;
 }
-a[0] = (*c) + '0';
-*c = 0;
+
+// Perform right shift of (C, A, Q)
+void shift_right(char a[], char q[], int n, int *c)
+{
+    // Save last bits
+    char lastA = a[n - 1];
+    // char lastQ = q[n - 1];
+
+    // Shift Q right
+    for (int i = n - 1; i > 0; i--)
+    {
+        q[i] = q[i - 1];
+    }
+    q[0] = lastA; // LSB of A goes into MSB of Q
+
+    // Shift A right
+    for (int i = n - 1; i > 0; i--)
+    {
+        a[i] = a[i - 1];
+    }
+    a[0] = (*c) + '0'; // Carry goes into MSB of A
+
+    *c = 0; // Reset carry
 }
-// MulƟply two binary numbers using shiŌ-add method (leŌ shiŌ)
-void mulƟply(char m[], char q[], int count) {
-char a[count + 1]; // Accumulator
-int c=0;
-for (int i = 0; i < count; i++){
-a[i] = '0';
+
+// Multiply two unsigned binaries using Shift-Add
+void multiply(char m[], char q[], int n)
+{
+    char a[n + 1]; // Accumulator
+    int c = 0;     // Carry
+    for (int i = 0; i < n; i++)
+        a[i] = '0';
+    a[n] = '\0';
+
+    printf("\nC\tA\tQ\tM\tOperation\n");
+    printf("%d\t%s\t%s\t%s\tInitial Values\n", c, a, q, m);
+
+    for (int step = 0; step < n; step++)
+    {
+        if (q[n - 1] == '1')
+        {
+            c = add_binary(a, m, n);
+            printf("%d\t%s\t%s\t%s\tA <- A + M\n", c, a, q, m);
+        }
+        shift_right(a, q, n, &c);
+        printf("%d\t%s\t%s\t%s\tShift Right\n\n", c, a, q, m);
+    }
+
+    printf("Final Product: %s%s\n", a, q);
 }
-a[count] = '\0';
-prinƞ("C\tA\tQ\tM");
-prinƞ("\n%d\t%s\t%s\t%s\tIniƟal Values\n\n", c, a, q,m);
-for (int step = 0; step < count; step++) {
-if (q[count-1] == '1') {
-c=add_binary(a, m, count);
-prinƞ("%d\t%s\t%s\t%s\t A <- A + M\n",c, a, q,m);
+
+int main()
+{
+    int n;
+    printf("Enter Number of Bits: ");
+    scanf("%d", &n);
+
+    char b1[n + 1], b2[n + 1]; // multiplicand and multiplier
+    printf("Enter First Number (Unsigned Binary): ");
+    scanf("%s", b1);
+    printf("Enter Second Number (Unsigned Binary): ");
+    scanf("%s", b2);
+
+    multiply(b1, b2, n);
+
+    return 0;
 }
-shiŌ_right(a, q, count, &c);
-prinƞ("%d\t%s\t%s\t%s\t SHIFT\n\n", c, a, q,m);
-}
-prinƞ("\nFinal Product: %s%s\n", a, q);
-}
-Output:
-Conclusion:
