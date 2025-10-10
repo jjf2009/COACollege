@@ -1,102 +1,98 @@
 #include <stdio.h>
 #include <string.h>
 
-void str_to_bin(char *str, int *bin, int n) {
-    for (int i = 0; i < n; i++)
-        bin[i] = str[i] - '0';
-}
+int add_binary(char[], char[], int);
+void twos_complement(char[], int);
+void shift_left(char[], char[], int);
+void divide(char[], char[], int);
 
-void print_bin(int *bin, int n) {
-    for (int i = 0; i < n; i++)
-        printf("%d", bin[i]);
-}
-
-void left_shift(int *A, int *Q, int n) {
-    int carry = Q[0];
-
-    // Shift A left
-    for (int i = 0; i < n - 1; i++)
-        A[i] = A[i + 1];
-    A[n - 1] = carry;
-
-    // Shift Q left
-    for (int i = 0; i < n - 1; i++)
-        Q[i] = Q[i + 1];
-    Q[n - 1] = 0;
-}
-
-int compare(int *A, int *M, int n) {
-    for (int i = 0; i < n; i++) {
-        if (A[i] > M[i]) return 1;
-        if (A[i] < M[i]) return -1;
-    }
-    return 0;
-}
-
-void subtract(int *A, int *M, int n) {
-    int borrow = 0;
-    for (int i = n - 1; i >= 0; i--) {
-        int diff = A[i] - M[i] - borrow;
-        if (diff < 0) {
-            diff += 2;
-            borrow = 1;
-        } else borrow = 0;
-        A[i] = diff;
-    }
-}
-
-void add(int *A, int *M, int n) {
+int add_binary(char a[], char b[], int n)
+{
     int carry = 0;
-    for (int i = n - 1; i >= 0; i--) {
-        int sum = A[i] + M[i] + carry;
-        A[i] = sum % 2;
+    for (int i = n - 1; i >= 0; i--)
+    {
+        int bit1 = a[i] - '0';
+        int bit2 = b[i] - '0';
+        int sum = bit1 + bit2 + carry;
+        a[i] = (sum % 2) + '0';
         carry = sum / 2;
     }
+    return carry;
 }
 
-int main() {
-    int M[4] = {0}, Q[4] = {0}, A[4] = {0}, n = 4;
-    char mstr[9], qstr[9];
+void twos_complement(char x[], int n)
+{
+    for (int i = 0; i < n; i++)
+        x[i] = (x[i] == '0') ? '1' : '0';
+    char one[n + 1];
+    for (int i = 0; i < n - 1; i++)
+        one[i] = '0';
+    one[n - 1] = '1';
+    one[n] = '\0';
+    add_binary(x, one, n);
+}
+void shift_left(char a[], char q[], int n)
+{
+    char firstQ = q[0];
 
-    printf("Enter Divisor (4-bit binary): ");
-    scanf("%4s", mstr);
-    printf("Enter Dividend (4-bit binary): ");
-    scanf("%4s", qstr);
+    for (int i = 0; i < n - 1; i++)
+        a[i] = a[i + 1];
+    a[n - 1] = firstQ;
 
-    str_to_bin(mstr, M, n);
-    str_to_bin(qstr, Q, n);
+    for (int i = 0; i < n - 1; i++)
+        q[i] = q[i + 1];
+    q[n - 1] = '0';
+}
+void divide(char m[], char q[], int n)
+{
+    char a[n + 1]; 
+    char m_neg[n + 1]; 
+    for (int i = 0; i < n; i++)
+        a[i] = '0';
+    a[n] = '\0';
+    strcpy(m_neg, m);
+    twos_complement(m_neg, n); 
+    printf("\nA\tQ\tM\tOperation\n");
+    printf("%s\t%s\t%s\tInitial Values\n", a, q, m);
 
-    printf("\nInitial State:\nA = "); 
-    print_bin(A, n);
-    printf(" Q = ");
-    print_bin(Q, n);
-    printf("\n");
+    for (int step = 0; step < n; step++)
+    {
+        shift_left(a, q, n);
+        printf("%s\t%s\t%s\tShift Left\n", a, q, m);
 
-    for (int step = 0; step < n; step++) {
-        left_shift(A, Q, n);
+        add_binary(a, m_neg, n); 
+        printf("%s\t%s\t%s\tA <- A - M\n", a, q, m);
 
-        // A = A - M
-        subtract(A, M, n);
-
-        if (compare(A, M, n) < 0) {
-
-            add(A, M, n);
-            Q[n - 1] = 0;
-        } else {
-            Q[n - 1] = 1;
+        if (a[0] == '1') 
+        {
+            add_binary(a, m, n); 
+            q[n - 1] = '0';
+            printf("%s\t%s\t%s\tA negative → Restore, Q0=0\n", a, q, m);
         }
-
-        printf("\nStep %d:\nA = ", step + 1);
-        print_bin(A, n);
-        printf(" Q = ");
-        print_bin(Q, n);
+        else
+        {
+            q[n - 1] = '1';
+            printf("%s\t%s\t%s\tA positive → Q0=1\n", a, q, m);
+        }
     }
 
-    printf("\n\nFinal Quotient (Q): ");
-    print_bin(Q, n);
-    printf("\nFinal Remainder (A): ");
-    print_bin(A, n);
-    printf("\n");
+    printf("\nFinal Quotient (Q): %s\n", q);
+    printf("Final Remainder (A): %s\n", a);
+}
+
+int main()
+{
+    int n;
+    printf("Enter Number of Bits: ");
+    scanf("%d", &n);
+
+    char b1[n + 1], b2[n + 1]; 
+    printf("Enter Dividend (Unsigned Binary): ");
+    scanf("%s", b1);
+    printf("Enter Divisor (Unsigned Binary): ");
+    scanf("%s", b2);
+
+    divide(b2, b1, n); 
 
     return 0;
 }

@@ -1,0 +1,8 @@
+LXI H,4000H
+MVI M,27H
+LDA M
+OUT A
+IN 26
+
+
+hlt

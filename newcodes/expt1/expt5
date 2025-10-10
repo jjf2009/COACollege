@@ -1,0 +1,4 @@
+LXI B ,27H
+LXI H ,4000H
+XCHG 
+hlt

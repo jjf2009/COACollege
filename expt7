@@ -1,0 +1,7 @@
+LXI 2050H
+MVI M,26H
+MVI A,M
+LXI 2060H
+MVI M,A
+
+hlt

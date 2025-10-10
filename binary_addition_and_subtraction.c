@@ -5,7 +5,6 @@ void one_complement(char[], char[], int);
 void two_complement(char[], char[], int);
 void add_binary(char[], char[], char[], int);
 
-
 int main()
 {
     char b1[100], b2[100], sum[100], diff[100], one_comp[100], two_comp[100];

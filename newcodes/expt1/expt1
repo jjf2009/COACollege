@@ -1,0 +1,8 @@
+MVI B ,27H
+MOV C,B
+LXI H,2000H
+MOV M,C
+MOV D,M
+
+
+hlt

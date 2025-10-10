@@ -1,0 +1,7 @@
+LXI H,4000H
+MVI M,27H
+MOV B,M
+XCHG 
+
+
+hlt

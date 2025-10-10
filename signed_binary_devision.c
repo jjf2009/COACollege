@@ -52,7 +52,7 @@ void shift_right(char a[], char q[], int *q_1, int n)
     a[0] = msbA;
 }
 \
-void multiply(char m[], char q[], int n)
+void divide(char m[], char q[], int n)
 {
     char a[n + 1];
     char m_neg[n + 1]; 
@@ -102,7 +102,7 @@ int main()
     printf("Enter Multiplier (4-bit signed binary): ");
     scanf("%s", q);
 
-    multiply(m, q, n);
+    divide(m, q, n);
 
     return 0;
 }

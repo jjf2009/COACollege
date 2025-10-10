@@ -1,12 +1,10 @@
 #include <stdio.h>
 #include <string.h>
 
-// Function prototypes
 int add_binary(char[], char[], int);
 void shift_right(char[], char[], int, int *);
 void multiply(char[], char[], int);
 
-// Add multiplicand (M) to accumulator (A) and return carry
 int add_binary(char a[], char m[], int n)
 {
     int carry = 0;
@@ -21,35 +19,29 @@ int add_binary(char a[], char m[], int n)
     return carry;
 }
 
-// Perform right shift of (C, A, Q)
 void shift_right(char a[], char q[], int n, int *c)
 {
-    // Save last bits
-    char lastA = a[n - 1];
-    // char lastQ = q[n - 1];
 
-    // Shift Q right
+    char lastA = a[n - 1];
+
     for (int i = n - 1; i > 0; i--)
     {
         q[i] = q[i - 1];
     }
-    q[0] = lastA; // LSB of A goes into MSB of Q
+    q[0] = lastA; 
 
-    // Shift A right
     for (int i = n - 1; i > 0; i--)
     {
         a[i] = a[i - 1];
     }
-    a[0] = (*c) + '0'; // Carry goes into MSB of A
+    a[0] = (*c) + '0'; 
 
-    *c = 0; // Reset carry
+    *c = 0; 
 }
-
-// Multiply two unsigned binaries using Shift-Add
 void multiply(char m[], char q[], int n)
 {
-    char a[n + 1]; // Accumulator
-    int c = 0;     // Carry
+    char a[n + 1]; 
+    int c = 0;   
     for (int i = 0; i < n; i++)
         a[i] = '0';
     a[n] = '\0';
@@ -77,7 +69,7 @@ int main()
     printf("Enter Number of Bits: ");
     scanf("%d", &n);
 
-    char b1[n + 1], b2[n + 1]; // multiplicand and multiplier
+    char b1[n + 1], b2[n + 1]; 
     printf("Enter First Number (Unsigned Binary): ");
     scanf("%s", b1);
     printf("Enter Second Number (Unsigned Binary): ");
