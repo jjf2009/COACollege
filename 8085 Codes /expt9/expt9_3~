@@ -1,0 +1,21 @@
+LDA 2050H ;27
+MOV B, A         
+LDA 2051H ;10    
+MOV C, A         
+
+MVI A, 00H       
+MVI D, 00H       
+
+BACK: ADD B       
+MOV E, A          
+MOV A, D          
+ADC A             
+MOV D, A          
+MOV A, E          
+DCR C             
+JNZ BACK          
+
+STA 2052H         
+MOV A, D
+STA 2053H         
+HLT

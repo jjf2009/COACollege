@@ -1,0 +1,14 @@
+MVI A, 27H       
+MVI B, 0F5H      
+ADD B             
+
+MOV C, A          
+
+MVI A, 00H        
+ADC A             
+STA 3001H         
+
+MOV A, C          
+STA 3000H         
+
+HLT               

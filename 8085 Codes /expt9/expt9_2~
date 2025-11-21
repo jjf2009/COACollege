@@ -1,0 +1,6 @@
+MVI A, 27H       
+MVI B, 06H 
+SUB B               
+
+STA 3000H        
+HLT

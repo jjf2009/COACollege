@@ -1,0 +1,19 @@
+LXI SP, 1000H      
+LXI H, 2000H      
+MVI B, 04H     
+L: MOV A, M          
+PUSH PSW      
+INX H              
+DCR B    
+JNZ L   
+LXI H, 2006H       
+MVI B, 04H  
+
+LL: POP PSW    
+MOV M, A  
+INX H              
+DCR B    
+JNZ LL             
+
+   
+HLT

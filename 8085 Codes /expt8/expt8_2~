@@ -1,0 +1,11 @@
+LXI H, 2000H      
+LXI D, 2009H       
+MVI B, 04H         
+
+BACK: MOV A, M      
+STAX D              
+INX H               
+DCX D               
+DCR B               
+JNZ BACK            
+HLT

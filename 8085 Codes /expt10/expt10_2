@@ -1,0 +1,24 @@
+LXI H, 2001H    
+MOV E, M        
+INX H           
+MOV D, M        
+               
+
+INX H           
+MOV C, M        
+INX H           
+MOV B, M        
+
+MOV L, E        
+MOV H, D        
+
+DAD B           
+
+LXI D, 2006H    
+MOV A, L        
+STAX D          
+INX D           
+MOV A, H        
+STAX D        
+
+HLT      

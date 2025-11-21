@@ -1,0 +1,18 @@
+LDA 2001H      
+MOV B,A        
+LDA 2002H      
+MOV C,A        
+MVI D,00H      
+
+LOOP: MOV A,B        
+    SUB C          
+    JM DONE       
+    MOV B,A        
+    INR D          
+    JMP LOOP       
+
+DONE: MOV A,D        
+    STA 2005H      
+    MOV A, B   
+    STA 2006H  
+    HLT            
